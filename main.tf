@@ -140,8 +140,8 @@ resource "proxmox_virtual_environment_vm" "vms" {
 
     ip_config {
       ipv4 {
-        address = var.ip_config_address != [] ? var.ip_config_address : "dhcp"
-        gateway = var.ip_config_address != [] ? var.ip_config_gateway : null
+        address = var.ip_config_address != "dhcp" ? var.ip_config_address : "dhcp"
+        gateway = var.ip_config_address != "dhcp" ? var.ip_config_gateway : null
       }
     }
 

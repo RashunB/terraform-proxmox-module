@@ -121,8 +121,8 @@ variable "network_device_model" {
 
 variable "ip_config_address" {
   description = "Static IP address for the vm"
-  type        = list
-  default     = []
+  type        = string
+  default     = "dhcp"
 }
 
 variable "ip_config_gateway" {
