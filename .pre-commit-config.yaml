@@ -1,0 +1,37 @@
+---
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: ^.*/README\.md$
+      - id: end-of-file-fixer
+        exclude: ^.*/README\.md$
+      - id: check-added-large-files
+      - id: detect-private-key
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.109.1
+    hooks:
+      - id: terraform_fmt
+      - id: terraform_docs
+        args:
+          - --args=--config=.terraform-docs.yaml
+          - --hook-config=--create-file-if-not-exist=true  # Boolean. true or false
+      - id: terraform_tflint
+        args:
+          - --args=--enable-rule=terraform_documented_variables
+          - --args=--enable-rule=terraform_documented_outputs
+          - --args=--enable-rule=terraform_module_shallow_clone
+          - --args=--enable-rule=terraform_standard_module_structure
+          - --args=--enable-rule=terraform_naming_convention
+      - id: terraform_trivy
+        files: ^terraform/
+        args:
+          - --args=--skip-dirs="**/.terraform"
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.1
+    hooks:
+      - id: gitleaks-system
+        pass_filenames: false

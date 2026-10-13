@@ -6,7 +6,7 @@
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.15 |
-| <a name="requirement_proxmox"></a> [proxmox](#requirement\_proxmox) | 0.113.1 |
+| <a name="requirement_proxmox"></a> [proxmox](#requirement\_proxmox) | >= 0.113.1 |
 
 ## Providers
 
@@ -23,9 +23,9 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [proxmox_virtual_environment_file.cloud_config](https://registry.terraform.io/providers/bpg/proxmox/0.113.1/docs/resources/virtual_environment_file) | resource |
-| [proxmox_virtual_environment_vm.vms](https://registry.terraform.io/providers/bpg/proxmox/0.113.1/docs/resources/virtual_environment_vm) | resource |
-| [proxmox_virtual_environment_vms.templates](https://registry.terraform.io/providers/bpg/proxmox/0.113.1/docs/data-sources/virtual_environment_vms) | data source |
+| [proxmox_virtual_environment_file.cloud_config](https://registry.terraform.io/providers/bpg/proxmox/latest/docs/resources/virtual_environment_file) | resource |
+| [proxmox_virtual_environment_vm.vms](https://registry.terraform.io/providers/bpg/proxmox/latest/docs/resources/virtual_environment_vm) | resource |
+| [proxmox_virtual_environment_vms.templates](https://registry.terraform.io/providers/bpg/proxmox/latest/docs/data-sources/virtual_environment_vms) | data source |
 
 ## Inputs
 
@@ -37,7 +37,11 @@ No modules.
 | <a name="input_datastore_files"></a> [datastore\_files](#input\_datastore\_files) | Proxmox datastore to store file components provisioned by Terraform | `string` | `"vmfiles"` | no |
 | <a name="input_datastore_infra"></a> [datastore\_infra](#input\_datastore\_infra) | Proxmox datastore to store infrastructure components provisioned by Terraform | `string` | `"vmdata"` | no |
 | <a name="input_dns_servers"></a> [dns\_servers](#input\_dns\_servers) | List of DNS servers written to VMs cloud-init network config | `list(string)` | <pre>[<br/>  "1.1.1.1",<br/>  "8.8.8.8"<br/>]</pre> | no |
+| <a name="input_ip_config_address"></a> [ip\_config\_address](#input\_ip\_config\_address) | Static IP address for the vm | `string` | `"dhcp"` | no |
+| <a name="input_ip_config_gateway"></a> [ip\_config\_gateway](#input\_ip\_config\_gateway) | Gateway to use when a static IP address is specified | `string` | `"192.168.0.1"` | no |
 | <a name="input_memory"></a> [memory](#input\_memory) | Total amount of memory in MBs | `number` | `2048` | no |
+| <a name="input_network_device_bridge"></a> [network\_device\_bridge](#input\_network\_device\_bridge) | Network device bridge | `string` | `"vmbr0"` | no |
+| <a name="input_network_device_model"></a> [network\_device\_model](#input\_network\_device\_model) | Network device model | `string` | `"virtio"` | no |
 | <a name="input_pcie_devices"></a> [pcie\_devices](#input\_pcie\_devices) | Map object to mount a PCIE device. | <pre>map(object({<br/>    device  = optional(string, null)<br/>    mapping = optional(string, null)<br/>    pcie    = optional(bool, true)<br/>    rombar  = optional(bool, true)<br/>  }))</pre> | `{}` | no |
 | <a name="input_personal_domain"></a> [personal\_domain](#input\_personal\_domain) | Personal domain to use for VM hostname | `string` | `"home.lab"` | no |
 | <a name="input_proxmox_node_name"></a> [proxmox\_node\_name](#input\_proxmox\_node\_name) | Proxmox host node name | `string` | n/a | yes |

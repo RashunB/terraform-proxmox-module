@@ -15,7 +15,6 @@ variable "datastore_files" {
   default     = "vmfiles"
 }
 
-
 variable "vm_default_user" {
   description = "Default user for VM setup and configuration"
   type        = string
@@ -106,6 +105,30 @@ variable "memory" {
   description = "Total amount of memory in MBs"
   type        = number
   default     = 2048
+}
+
+variable "network_device_bridge" {
+  description = "Network device bridge"
+  type        = string
+  default     = "vmbr0"
+}
+
+variable "network_device_model" {
+  description = "Network device model"
+  type        = string
+  default     = "virtio"
+}
+
+variable "ip_config_address" {
+  description = "Static IP address for the vm"
+  type        = string
+  default     = "dhcp"
+}
+
+variable "ip_config_gateway" {
+  description = "Gateway to use when a static IP address is specified"
+  type        = string
+  default     = "192.168.0.1"
 }
 
 variable "dns_servers" {

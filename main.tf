@@ -3,7 +3,7 @@ terraform {
   required_providers {
     proxmox = {
       source                = "bpg/proxmox"
-      version               = "0.113.1"
+      version               = ">= 0.113.1"
       configuration_aliases = [proxmox.root]
     }
   }
@@ -122,8 +122,8 @@ resource "proxmox_virtual_environment_vm" "vms" {
   }
 
   network_device {
-    bridge = "vmbr0"
-    model  = "virtio"
+    bridge = var.network_device_bridge
+    model  = var.network_device_model
   }
 
   operating_system {
@@ -140,7 +140,8 @@ resource "proxmox_virtual_environment_vm" "vms" {
 
     ip_config {
       ipv4 {
-        address = "dhcp"
+        address = var.ip_config_address
+        gateway = var.ip_config_address != "dhcp" ? var.ip_config_gateway : null
       }
     }
 
