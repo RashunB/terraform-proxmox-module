@@ -1,4 +1,7 @@
 # Proxmox VE VM Terraform module
+[![CI](https://github.com/RashunB/terraform-proxmox-module/actions/workflows/ci.yml/badge.svg)](https://github.com/RashunB/terraform-proxmox-module/actions/workflows/ci.yml)
+[![Terraform](https://img.shields.io/badge/Terraform-7B42BC?logo=terraform&logoColor=white)](https://developer.hashicorp.com/terraform)
+[![Proxmox VE](https://img.shields.io/badge/Proxmox-ea7233?logo=proxmox&logoColor=white)](https://www.proxmox.com/)
 
 Terraform module that clones cloud-init enabled VMs from a tagged Proxmox VE template using the [bpg/proxmox](https://registry.terraform.io/providers/bpg/proxmox/latest) provider. Each VM gets its own rendered cloud-init user-data snippet, a single NIC with DHCP or static IPv4, optional extra disks, and optional PCIe passthrough. VM tags are derived from the inputs so the result can feed a Proxmox-backed Ansible dynamic inventory.
 
