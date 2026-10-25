@@ -27,7 +27,6 @@ repos:
           - --args=--enable-rule=terraform_standard_module_structure
           - --args=--enable-rule=terraform_naming_convention
       - id: terraform_trivy
-        files: ^terraform/
         args:
           - --args=--skip-dirs="**/.terraform"
   - repo: https://github.com/gitleaks/gitleaks
