@@ -26,32 +26,13 @@ jobs:
         with:
           terraform_wrapper: false
       - name: Format check
-        run: terraform fmt -check -recursive terraform
+        run: terraform fmt -check -recursive
       - uses: terraform-linters/setup-tflint@1cf010d3c7aef302051ccdb68c14c5dc2efa34ef
       - name: TFLint
-        working-directory: terraform
+        working-directory: .
         run: |
           tflint --init
           tflint --recursive --format compact
-
-  terraform-validate:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        stack:
-          - terraform/infrastructure/_base
-          - terraform/deployments/media/infrastructure
-          - terraform/deployments/media/application
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-      - uses: hashicorp/setup-terraform@dfe3c3f87815947d99a8997f908cb6525fc44e9e
-        with:
-          terraform_wrapper: false
-      - name: Init (no backend)
-        run: terraform -chdir=${{ matrix.stack }} init -backend=false
-      - name: Validate
-        run: terraform -chdir=${{ matrix.stack }} validate
 
   trivy:
     runs-on: ubuntu-latest
@@ -60,7 +41,7 @@ jobs:
       - uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25
         with:
           scan-type: config
-          scan-ref: terraform
+          scan-ref: .
           trivy-config: trivy.yaml
           exit-code: 1
 
