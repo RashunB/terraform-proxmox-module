@@ -1,27 +1,32 @@
 {
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "deny": [
+      "Bash(terraform apply*)",
+      "Bash(terraform * apply*)",
+      "Bash(terraform destroy*)",
+      "Bash(terraform * destroy*)"
+    ],
+    "ask": [
+      "Bash(git push *)",
+      "Bash(git tag *)"
+    ]
+  },
   "enabledPlugins": {
-    "terraform-patterns@claude-code-skills": true,
-    "deployment-strategies@claude-code-workflows": true,
-    "comprehensive-review@claude-code-workflows": true,
-    "documentation-standards@claude-code-workflows": true,
-    "code-review@claude-plugins-official": true,
-    "claude-code-setup@claude-plugins-official": true,
-    "claude-md-management@claude-plugins-official": true,
-    "self-improving-agent@claude-code-skills": true,
-    "reflect-skill@claude-code-skills": true
+    "terraform@hashicorp": true,
+    "terraform-skill@antonbabenko": true
   },
   "extraKnownMarketplaces": {
-    "claude-code-skills": {
+    "hashicorp": {
       "source": {
-        "source": "git",
-        "url": "https://github.com/alirezarezvani/claude-skills.git"
-      },
-      "autoUpdate": false
+        "source": "github",
+        "repo": "hashicorp/agent-skills"
+      }
     },
-    "claude-code-workflows": {
+    "antonbabenko": {
       "source": {
-        "source": "git",
-        "url": "https://github.com/wshobson/agents.git"
+        "source": "github",
+        "repo": "antonbabenko/agent-plugins"
       }
     }
   }
