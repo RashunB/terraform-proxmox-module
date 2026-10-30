@@ -5,5 +5,5 @@ output "vm_id" {
 
 output "primary_ip" {
   description = "First non-loopback IPv4 address(es) of VM(s)"
-  value       = var.ip_config_address != "dhcp" ? toset(var.ip_config_address) : proxmox_virtual_environment_vm.vms[*].ipv4_addresses[1][0]
+  value       = var.ip_config_address != "dhcp" ? [split("/", var.ip_config_address)[0]] : proxmox_virtual_environment_vm.vms[*].ipv4_addresses[1][0]
 }

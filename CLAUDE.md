@@ -12,6 +12,14 @@ Claude investigates and advises. Implementation happens on request.
 - Explain the *why*: the failure mode a pattern prevents and how a platform team publishing a shared module would handle the same problem.
 - Flag where the module diverges from production module practice when it bears on the question. Don't silently work around a gap.
 - Prefer tools and patterns with direct enterprise equivalents (`terraform test` with `mock_provider`, `examples/` roots, semantic versioning, plan-on-PR) and name the equivalent when suggesting one.
+- Claude is supplemental. Nothing in this repo requires Claude to run. Any check Claude proposes lands in pre-commit or CI, never as a Claude-only skill or hook.
+
+## Claude Code setup
+
+`.claude/settings.json` holds permissions and the enabled plugins. `.mcp.json` runs the Terraform MCP server with only the registry toolset.
+
+- Answer `bpg/proxmox` schema questions (attributes, block shapes, changes between releases) through the `terraform` MCP registry tools, not from memory. The provider changes often.
+- The `terraform` (HashiCorp) and `terraform-skill` (Anton Babenko) plugins supply Terraform practice. This file wins on conflict. Their state, backend, apply-in-CI, and cloud-provider guidance assumes a root module and rarely applies here.
 
 ## Environment
 
@@ -36,10 +44,11 @@ Claude investigates and advises. Implementation happens on request.
 - Inputs, outputs, defaults, and the applied tag set form the public interface. Renaming or retyping a variable or output, changing a default, or changing tag composition breaks consumers. Call it out explicitly in any proposal.
 - A change lands here first. The consumer then moves `?ref=` to the new full SHA in `/repo/Homelab-Platform/terraform/deployments/media/infrastructure/main.tf` and validates that stack (`terraform -chdir=<stack> init -backend=false && terraform -chdir=<stack> validate`).
 - `v1.0.0` exists as a tag. The homelab pins SHAs because a tag can move.
+- The terraform-docs tables in `README.md` are the interface record. A PR's `BEGIN_TF_DOCS` diff shows every input and output change, and that review sets the version bump. Behavior the tables cannot show (tag composition, the DHCP address index, validation rules) needs test assertions.
 
 ## Hard rules
 
-- Never run `terraform apply`/`destroy`. Applying belongs to the calling root.
+- Never run `terraform apply`/`destroy`. Applying belongs to the calling root. `.claude/settings.json` denies both, including `-chdir` forms, and requires approval for `git push` and `git tag`.
 - Never commit `*.tfvars` or state, and never put credentials in examples. Examples use variables for every secret.
 - Defaults and examples carry no environment-specific values. Use `example.com` and documentation address ranges (`192.0.2.0/24`).
 - GitHub Actions pin full commit SHAs, never tags.
@@ -62,6 +71,7 @@ Claude investigates and advises. Implementation happens on request.
 - Every variable and output carries a `description` (TFLint `all` preset).
 - Object-typed inputs use `optional()` attributes with defaults.
 - `.terraform.lock.hcl` is committed for this repo's own checks. Consumers resolve providers from their own lockfile.
+- Every `tests/*.tftest.hcl` declares `mock_provider "proxmox" {}` and `mock_provider "proxmox" { alias = "root" }`, and every `run` block sets `command` explicitly. `terraform test` defaults to apply, so an unmocked run with `PROXMOX_VE_*` exported clones real VMs.
 
 ## Documentation style
 

@@ -1,14 +1,3 @@
-terraform {
-  required_version = ">= 1.15"
-  required_providers {
-    proxmox = {
-      source                = "bpg/proxmox"
-      version               = ">= 0.113.1"
-      configuration_aliases = [proxmox.root]
-    }
-  }
-}
-
 data "proxmox_virtual_environment_vms" "templates" {
   tags = ["template", var.template_os_tag]
 
@@ -56,7 +45,7 @@ resource "proxmox_virtual_environment_vm" "vms" {
   count           = var.vm_count
   stop_on_destroy = true
   boot_order      = ["virtio0"]
-  tags            = local.tag_list
+  tags            = sort(local.tag_list)
   machine         = local.gpu_passthrough ? "q35" : "pc"
   bios            = local.gpu_passthrough ? "ovmf" : "seabios"
 
@@ -90,6 +79,7 @@ resource "proxmox_virtual_environment_vm" "vms" {
       backup            = disk.value["backup"]
       replicate         = disk.value["replicate"]
       serial            = disk.value["serial"]
+      cache             = disk.value["cache"]
     }
   }
 

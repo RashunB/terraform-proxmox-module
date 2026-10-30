@@ -36,9 +36,6 @@ override.tf.json
 .terraformrc
 terraform.rc
 
-# Retry files generated for failed Ansible playbook runs
-*.retry
-
 # Extra
-resources
 .vscode
+settings.local.json
